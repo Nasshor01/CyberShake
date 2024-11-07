@@ -1,69 +1,161 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberShake - Výběr postavy</title>
-    <script src="phaser.js"></script>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background: #000; /* Černé pozadí mimo canvas */
-        }
-    </style>
+    <title>Výběr Postavy - Cyberpunk RPG</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div class="character-creation-container">
+        <h1>Vytvořte si svou postavu</h1>
+        
+        <!-- Výběr Třídy s Náhledem -->
+        <div class="character-class-selection">
+            <h2>Vyberte si třídu</h2>
+            <button onclick="changeClass('previous')">&#8592;</button>
+            <span id="class-name">Hacker</span>
+            <button onclick="changeClass('next')">&#8594;</button>
+        </div>
+        
+        <!-- Výběr Pohlaví -->
+        <div class="character-gender-selection">
+            <h2>Vyberte si pohlaví</h2>
+            <button onclick="changeGender('previous')">&#8592;</button>
+            <span id="gender-name">Muž</span>
+            <button onclick="changeGender('next')">&#8594;</button>
+        </div>
 
-<script>
-    class CharacterSelectionScene extends Phaser.Scene {
-        constructor() {
-            super({ key: "CharacterSelectionScene" });
+        <!-- Výběr Rasy -->
+        <div class="character-race-selection">
+            <h2>Vyberte si rasu</h2>
+            <button onclick="changeRace('previous')">&#8592;</button>
+            <span id="race-name">Člověk</span>
+            <button onclick="changeRace('next')">&#8594;</button>
+        </div>
+        
+        <!-- Náhled Třídy -->
+        <div class="character-preview">
+            <img id="character-preview-image" src="assets/characters/hacker_male.png" alt="Character Preview">
+        </div>
+
+        <!-- Výběr Jména Postavy -->
+        <div class="character-name-selection">
+            <h2>Zadejte jméno postavy</h2>
+            <input type="text" id="character-name" placeholder="Jméno postavy">
+        </div>
+        
+        <!-- Tlačítko Potvrdit -->
+        <div class="character-confirm">
+            <button onclick="confirmSelection()">Potvrdit postavu</button>
+        </div>
+    </div>
+
+    <div class="profile-scene" id="profile-scene" style="display: none;">
+        <h1>Profil Postavy</h1>
+        <div class="character-info">
+            <p><strong>Jméno:</strong> <span id="profile-name"></span></p>
+            <p><strong>Třída:</strong> <span id="profile-class"></span></p>
+            <p><strong>Rasa:</strong> <span id="profile-race"></span></p>
+            <p><strong>Pohlaví:</strong> <span id="profile-gender"></span></p>
+        </div>
+        <div class="navigation-panel">
+            <button onclick="navigate('tavern')">Hospoda</button>
+            <button onclick="navigate('shop')">Obchod</button>
+            <button onclick="navigate('quests')">Úkoly</button>
+        </div>
+    </div>
+
+    <script>
+        const classes = ['hacker', 'street_samurai'];
+        const genders = ['male', 'female'];
+        const races = ['human', 'cybermutant'];
+
+        let currentClassIndex = 0;
+        let currentGenderIndex = 0;
+        let currentRaceIndex = 0;
+
+        function updatePreview() {
+            const selectedClass = classes[currentClassIndex];
+            const selectedGender = genders[currentGenderIndex];
+            const selectedRace = races[currentRaceIndex];
+
+            let imageName;
+
+            if (selectedRace === 'cybermutant') {
+                if (selectedClass === 'street_samurai') {
+                    imageName = `cybermutant_samurai_${selectedGender}.png`;
+                } else {
+                    imageName = `cybermutant_${selectedClass}_${selectedGender}.png`;
+                }
+            } else {
+                imageName = `${selectedClass}_${selectedGender}.png`;
+            }
+
+            const characterImage = document.getElementById('character-preview-image');
+            characterImage.src = `assets/characters/${imageName}`;
+
+            // Aktualizace textu výběru
+            document.getElementById('class-name').innerText = selectedClass === 'hacker' ? 'Hacker' : 'Pouliční Samuraj';
+            document.getElementById('gender-name').innerText = selectedGender === 'male' ? 'Muž' : 'Žena';
+            document.getElementById('race-name').innerText = selectedRace === 'human' ? 'Člověk' : 'Kybermutant';
         }
 
-        preload() {
-            // Načtení obrázku pozadí a postavy
-            this.load.image('background', 'assets/background.png');
-            this.load.image('samurai', 'assets/characters/samurai.png');
+        function changeClass(direction) {
+            if (direction === 'next') {
+                currentClassIndex = (currentClassIndex + 1) % classes.length;
+            } else {
+                currentClassIndex = (currentClassIndex - 1 + classes.length) % classes.length;
+            }
+            updatePreview();
         }
 
-        create() {
-            // Zobrazení pozadí
-            this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'background')
-                .setScale(Math.max(this.cameras.main.width / 1920, this.cameras.main.height / 1080))
-                .setScrollFactor(0);
-
-            // Zobrazení postavy (Street Samurai)
-            const character = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'samurai');
-            character.setScale(0.6); // Úprava velikosti dle potřeby
-
-            // Přidání textu a popisu pod postavou
-            const style = { font: "24px Arial", fill: "#ffffff", align: "center" };
-            this.add.text(this.cameras.main.width / 2 - 50, this.cameras.main.height / 1.2, "Street Samurai", style);
-            this.add.text(this.cameras.main.width / 2 - 50, this.cameras.main.height / 1.15, "Hlavní atribut: Síla", style);
-            this.add.text(this.cameras.main.width / 2 - 50, this.cameras.main.height / 1.1, "Specializace: Boj s katanou", style);
+        function changeGender(direction) {
+            if (direction === 'next') {
+                currentGenderIndex = (currentGenderIndex + 1) % genders.length;
+            } else {
+                currentGenderIndex = (currentGenderIndex - 1 + genders.length) % genders.length;
+            }
+            updatePreview();
         }
-    }
 
-    const config = {
-        type: Phaser.AUTO,
-        width: window.innerWidth,
-        height: window.innerHeight,
-        scene: CharacterSelectionScene,
-        scale: {
-            mode: Phaser.Scale.FIT,
-            autoCenter: Phaser.Scale.CENTER_BOTH
+        function changeRace(direction) {
+            if (direction === 'next') {
+                currentRaceIndex = (currentRaceIndex + 1) % races.length;
+            } else {
+                currentRaceIndex = (currentRaceIndex - 1 + races.length) % races.length;
+            }
+            updatePreview();
         }
-    };
 
-    const game = new Phaser.Game(config);
+        function confirmSelection() {
+            const selectedClass = classes[currentClassIndex];
+            const selectedRace = races[currentRaceIndex];
+            const selectedGender = genders[currentGenderIndex];
+            const characterName = document.getElementById('character-name').value;
 
-    // Přizpůsobení velikosti okna při změně velikosti obrazovky
-    window.addEventListener("resize", () => {
-        game.scale.resize(window.innerWidth, window.innerHeight);
-    });
-</script>
+            if (characterName.trim() === '') {
+                alert('Prosím zadejte jméno postavy.');
+                return;
+            }
+            
+            // Uložení údajů o postavě
+            document.getElementById('profile-name').innerText = characterName;
+            document.getElementById('profile-class').innerText = selectedClass === 'hacker' ? 'Hacker' : 'Pouliční Samuraj';
+            document.getElementById('profile-race').innerText = selectedRace === 'human' ? 'Člověk' : 'Kybermutant';
+            document.getElementById('profile-gender').innerText = selectedGender === 'male' ? 'Muž' : 'Žena';
 
+            // Zobrazení profilové scény
+            document.querySelector('.character-creation-container').style.display = 'none';
+            document.getElementById('profile-scene').style.display = 'block';
+        }
+
+        function navigate(destination) {
+            alert(`Navigace do: ${destination}`);
+        }
+
+        // Inicializace náhledu při načtení stránky
+        updatePreview();
+    </script>
 </body>
 </html>
