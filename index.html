@@ -1,53 +1,69 @@
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Test Pozadí</title>
-    <script src="phaser.js"></script> <!-- Ujistěte se, že Phaser knihovna je správně načtená -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberShake - Výběr postavy</title>
+    <script src="phaser.js"></script>
     <style>
         body, html {
             margin: 0;
             padding: 0;
-            overflow: hidden; /* Skryje posuvníky */
+            overflow: hidden;
+            background: #000; /* Černé pozadí mimo canvas */
         }
     </style>
 </head>
 <body>
-    <script>
-        class TestScene extends Phaser.Scene {
-            constructor() {
-                super({ key: 'TestScene' });
-            }
 
-            preload() {
-                // Načtení obrázku pozadí
-                this.load.image('background', 'assets/background.png');
-            }
-
-            create() {
-                // Přidání obrázku jako pozadí
-                this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'background')
-                    .setOrigin(0.5)
-                    .setDisplaySize(this.scale.width, this.scale.height);
-            }
+<script>
+    class CharacterSelectionScene extends Phaser.Scene {
+        constructor() {
+            super({ key: "CharacterSelectionScene" });
         }
 
-        const config = {
-            type: Phaser.AUTO,
-            width: window.innerWidth,
-            height: window.innerHeight,
-            scene: [TestScene],
-            scale: {
-                mode: Phaser.Scale.RESIZE,
-                autoCenter: Phaser.Scale.CENTER_BOTH
-            }
-        };
+        preload() {
+            // Načtení obrázku pozadí a postavy
+            this.load.image('background', 'assets/background.png');
+            this.load.image('samurai', 'assets/characters/samurai.png');
+        }
 
-        const game = new Phaser.Game(config);
+        create() {
+            // Zobrazení pozadí
+            this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'background')
+                .setScale(Math.max(this.cameras.main.width / 1920, this.cameras.main.height / 1080))
+                .setScrollFactor(0);
 
-        window.addEventListener('resize', () => {
-            game.scale.resize(window.innerWidth, window.innerHeight);
-        });
-    </script>
+            // Zobrazení postavy (Street Samurai)
+            const character = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'samurai');
+            character.setScale(0.6); // Úprava velikosti dle potřeby
+
+            // Přidání textu a popisu pod postavou
+            const style = { font: "24px Arial", fill: "#ffffff", align: "center" };
+            this.add.text(this.cameras.main.width / 2 - 50, this.cameras.main.height / 1.2, "Street Samurai", style);
+            this.add.text(this.cameras.main.width / 2 - 50, this.cameras.main.height / 1.15, "Hlavní atribut: Síla", style);
+            this.add.text(this.cameras.main.width / 2 - 50, this.cameras.main.height / 1.1, "Specializace: Boj s katanou", style);
+        }
+    }
+
+    const config = {
+        type: Phaser.AUTO,
+        width: window.innerWidth,
+        height: window.innerHeight,
+        scene: CharacterSelectionScene,
+        scale: {
+            mode: Phaser.Scale.FIT,
+            autoCenter: Phaser.Scale.CENTER_BOTH
+        }
+    };
+
+    const game = new Phaser.Game(config);
+
+    // Přizpůsobení velikosti okna při změně velikosti obrazovky
+    window.addEventListener("resize", () => {
+        game.scale.resize(window.innerWidth, window.innerHeight);
+    });
+</script>
+
 </body>
 </html>
