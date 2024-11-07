@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Postavy</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="character-profile-container">
+        <h1>Profil Postavy</h1>
+        <!-- Zobrazení informací o postavě -->
+        <div class="character-info">
+            <p><strong>Jméno:</strong> <span id="character-name"></span></p>
+            <p><strong>Třída:</strong> <span id="character-class"></span></p>
+            <p><strong>Rasa:</strong> <span id="character-race"></span></p>
+            <p><strong>Pohlaví:</strong> <span id="character-gender"></span></p>
+        </div>
+        
+        <!-- Zobrazení obrázku postavy -->
+        <div class="character-image">
+            <img id="character-image" src="" alt="Character Image">
+        </div>
+        
+        <!-- Zobrazení atributů postavy -->
+        <div class="character-attributes">
+            <h2>Atributy</h2>
+            <div id="attributes-container"></div>
+        </div>
+        
+        <!-- Tlačítka pro návrat a další akce -->
+        <button onclick="window.location.href='index.html';">Zpět</button>
+    </div>
+
+    <script>
+        // Načtení dat postavy z local storage a zobrazení v profilu
+        document.addEventListener('DOMContentLoaded', () => {
+            const characterData = JSON.parse(localStorage.getItem('characterData'));
+
+            if (characterData) {
+                document.getElementById('character-name').textContent = characterData.name;
+                document.getElementById('character-class').textContent = characterData.class;
+                document.getElementById('character-race').textContent = characterData.race;
+                document.getElementById('character-gender').textContent = characterData.gender;
+
+                // Nastavení obrázku postavy podle třídy, rasy a pohlaví
+                let imageName;
+                if (characterData.race === 'cybermutant') {
+                    imageName = `cybermutant_${characterData.class}_${characterData.gender}.png`;
+                } else {
+                    imageName = `${characterData.class}_${characterData.gender}.png`;
+                }
+                document.getElementById('character-image').src = `assets/characters/${imageName}`;
+
+                // Zobrazení atributů s tlačítky "+" pro vylepšování
+                const attributesContainer = document.getElementById('attributes-container');
+                const attributes = characterData.attributes;
+
+                for (const [key, value] of Object.entries(attributes)) {
+                    const attributeElement = document.createElement('div');
+                    attributeElement.innerHTML = `
+                        <strong>${key.charAt(0).toUpperCase() + key.slice(1)}:</strong> 
+                        <span id="${key}-value">${value}</span>
+                        <button onclick="increaseAttribute('${key}')">+</button>
+                    `;
+                    attributesContainer.appendChild(attributeElement);
+                }
+            } else {
+                alert('Data postavy nebyla nalezena.');
+            }
+        });
+
+        // Funkce pro zvýšení hodnoty atributu
+        function increaseAttribute(attribute) {
+            let characterData = JSON.parse(localStorage.getItem('characterData'));
+            characterData.attributes[attribute] += 1;
+
+            // Aktualizace hodnoty v HTML
+            document.getElementById(`${attribute}-value`).textContent = characterData.attributes[attribute];
+
+            // Uložení změn zpět do local storage
+            localStorage.setItem('characterData', JSON.stringify(characterData));
+        }
+    </script>
+</body>
+</html>
