@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Pozadí</title>
+    <script src="phaser.js"></script> <!-- Ujistěte se, že Phaser knihovna je správně načtená -->
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Skryje posuvníky */
+        }
+    </style>
+</head>
+<body>
+    <script>
+        class TestScene extends Phaser.Scene {
+            constructor() {
+                super({ key: 'TestScene' });
+            }
+
+            preload() {
+                // Načtení obrázku pozadí
+                this.load.image('background', 'assets/background.png');
+            }
+
+            create() {
+                // Přidání obrázku jako pozadí
+                this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'background')
+                    .setOrigin(0.5)
+                    .setDisplaySize(this.scale.width, this.scale.height);
+            }
+        }
+
+        const config = {
+            type: Phaser.AUTO,
+            width: window.innerWidth,
+            height: window.innerHeight,
+            scene: [TestScene],
+            scale: {
+                mode: Phaser.Scale.RESIZE,
+                autoCenter: Phaser.Scale.CENTER_BOTH
+            }
+        };
+
+        const game = new Phaser.Game(config);
+
+        window.addEventListener('resize', () => {
+            game.scale.resize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
