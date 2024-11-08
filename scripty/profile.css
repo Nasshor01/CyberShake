@@ -1,0 +1,113 @@
+/* profile.css - CSS styl pro nové uživatelské rozhraní profilu postavy */
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #1e1e1e;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.character-info {
+    background-color: #2c2c2c;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    width: 80%;
+    max-width: 400px;
+    text-align: left;
+}
+
+.character-preview {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.character-preview img {
+    width: 300px;
+    height: auto;
+    border: 5px solid #3a3a3a;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #0a0a0a;
+}
+
+.equipment-slots {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    background-color: #2c2c2c;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    width: 80%;
+    max-width: 600px;
+}
+
+.slot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    background-color: #3a3a3a;
+    border-radius: 5px;
+}
+
+.slot img {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 5px;
+}
+
+.character-attributes {
+    background-color: #2c2c2c;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    width: 80%;
+    max-width: 400px;
+}
+
+.character-attributes p {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.character-attributes button {
+    background-color: #008cba;
+    color: #ffffff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.character-attributes button:hover {
+    background-color: #005f7a;
+}
+
+.return-button {
+    background-color: #008cba;
+    color: #ffffff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.return-button:hover {
+    background-color: #005f7a;
+}
+
+.attribute-title {
+    font-weight: bold;
+    font-size: 1.2em;
+}

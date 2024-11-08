@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Postavy - Cyberpunk RPG</title>
+    <link rel="stylesheet" href="../UI/profile.css">
+</head>
+<body>
+    <div class="profile-container">
+        <h1>Profil Postavy</h1>
+        
+        <!-- Základní informace o postavě -->
+        <div class="character-info">
+            <p><strong>Jméno:</strong> <span id="profile-name"></span></p>
+            <p><strong>Třída:</strong> <span id="profile-class"></span></p>
+            <p><strong>Rasa:</strong> <span id="profile-race"></span></p>
+            <p><strong>Pohlaví:</strong> <span id="profile-gender"></span></p>
+        </div>
+        
+        <!-- Náhled postavy s předmětovými sloty -->
+        <div class="character-layout">
+            <div class="slot unique-item">Unikátní Item</div>
+            <div class="slot helmet">Helma</div>
+            <div class="slot armor">Brnění</div>
+            <div class="slot gloves">Rukavice</div>
+            <div class="character-preview">
+                <img id="profile-image" src="" alt="Character Image" class="profile-image">
+            </div>
+            <div class="slot boots">Boty</div>
+            <div class="slot weapon">Zbraň</div>
+            <div class="slot amulet">Amulet</div>
+            <div class="slot ring">Prsten</div>
+            <div class="slot talisman">Talisman</div>
+        </div>
+
+        <!-- Přidání levelu a zkušeností -->
+        <div class="character-level">
+            <p><strong>Úroveň:</strong> <span id="profile-level">1</span></p>
+        </div>
+        <div class="character-xp">
+            <p><strong>Zkušenosti:</strong> <span id="profile-xp">0 / 100</span></p>
+            <div class="xp-bar">
+                <div id="xp-bar-fill"></div>
+            </div>
+        </div>
+
+        <!-- Atributy k vylepšení s rámečky -->
+        <div class="attributes-container">
+            <div class="attribute-card">
+                <p><strong>Síla</strong></p>
+                <div class="attribute-value">
+                    <span id="attribute-strength">5</span> 
+                    <button onclick="increaseAttribute('strength')">+</button>
+                </div>
+                <div class="attribute-details">
+                    <p>Obrana: <span id="strength-defense">10</span></p>
+                </div>
+            </div>
+
+            <div class="attribute-card">
+                <p><strong>Inteligence</strong></p>
+                <div class="attribute-value">
+                    <span id="attribute-intelligence">5</span> 
+                    <button onclick="increaseAttribute('intelligence')">+</button>
+                </div>
+                <div class="attribute-details">
+                    <p>Poškození: <span id="intelligence-damage">15</span></p>
+                </div>
+            </div>
+
+            <div class="attribute-card">
+                <p><strong>Obratnost</strong></p>
+                <div class="attribute-value">
+                    <span id="attribute-dexterity">5</span> 
+                    <button onclick="increaseAttribute('dexterity')">+</button>
+                </div>
+                <div class="attribute-details">
+                    <p>Vyhýbání: <span id="dexterity-dodge">12</span></p>
+                </div>
+            </div>
+
+            <div class="attribute-card">
+                <p><strong>Výdrž</strong></p>
+                <div class="attribute-value">
+                    <span id="attribute-endurance">5</span> 
+                    <button onclick="increaseAttribute('endurance')">+</button>
+                </div>
+                <div class="attribute-details">
+                    <p>Životy: <span id="endurance-health">20</span></p>
+                </div>
+            </div>
+
+            <div class="attribute-card">
+                <p><strong>Štěstí</strong></p>
+                <div class="attribute-value">
+                    <span id="attribute-luck">5</span> 
+                    <button onclick="increaseAttribute('luck')">+</button>
+                </div>
+                <div class="attribute-details">
+                    <p>Krit. Zásah: <span id="luck-crit">5%</span></p>
+                </div>
+            </div>
+
+            <div class="attribute-card">
+                <p><strong>Technologie</strong></p>
+                <div class="attribute-value">
+                    <span id="attribute-technology">5</span> 
+                    <button onclick="increaseAttribute('technology')">+</button>
+                </div>
+                <div class="attribute-details">
+                    <p>Bonus: <span id="technology-bonus">8</span></p>
+                </div>
+            </div>
+
+            <div class="attribute-card">
+                <p><strong>Kybernetika</strong></p>
+                <div class="attribute-value">
+                    <span id="attribute-cybernetics">5</span> 
+                    <button onclick="increaseAttribute('cybernetics')">+</button>
+                </div>
+                <div class="attribute-details">
+                    <p>Zásahová síla: <span id="cybernetics-power">12</span></p>
+                </div>
+            </div>
+
+            <div class="attribute-card">
+                <p><strong>Reflexy</strong></p>
+                <div class="attribute-value">
+                    <span id="attribute-reflexes">5</span> 
+                    <button onclick="increaseAttribute('reflexes')">+</button>
+                </div>
+                <div class="attribute-details">
+                    <p>Rychlost: <span id="reflex-speed">10</span></p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tlačítko pro návrat do Menu -->
+        <button class="menu-button" onclick="window.location.href='menu.html'">Zpět do Menu</button>
+    </div>
+
+    <script src="../scripty/profile.js"></script>
+</body>
+</html>

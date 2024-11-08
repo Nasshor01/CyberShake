@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Výběr Postavy - Cyberpunk RPG</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <div class="character-creation-container">
+        <h1>Vytvořte si svou postavu</h1>
+        
+        <!-- Výběr Třídy s Náhledem -->
+        <div class="character-class-selection">
+            <h2>Vyberte si třídu</h2>
+            <button onclick="changeClass('previous')">←</button>
+            <span id="class-name">Pouliční Samuraj</span>
+            <button onclick="changeClass('next')">→</button>
+        </div>
+        
+        <!-- Výběr Pohlaví -->
+        <div class="character-gender-selection">
+            <h2>Vyberte si pohlaví</h2>
+            <button onclick="changeGender('previous')">←</button>
+            <span id="gender-name">Muž</span>
+            <button onclick="changeGender('next')">→</button>
+        </div>
+
+        <!-- Výběr Rasy -->
+        <div class="character-race-selection">
+            <h2>Vyberte si rasu</h2>
+            <button onclick="changeRace('previous')">←</button>
+            <span id="race-name">Člověk</span>
+            <button onclick="changeRace('next')">→</button>
+        </div>
+        
+        <!-- Náhled Třídy -->
+        <div class="character-preview">
+            <h2>Náhled postavy</h2>
+            <img id="character-preview-image" src="../assets/characters/human_street_samurai_male.png" alt="Character Preview">
+        </div>
+        
+        <!-- Výběr Jména Postavy -->
+        <div class="character-name-selection">
+            <h2>Zadejte jméno postavy</h2>
+            <input type="text" id="character-name" placeholder="Jméno postavy">
+        </div>
+        
+        <!-- Tlačítko Potvrdit -->
+        <div class="character-confirm">
+            <button onclick="confirmSelection()">Potvrdit postavu</button>
+        </div>
+    </div>
+
+    <script src="../scripty/character_creation.js"></script>
+</body>
+</html>
